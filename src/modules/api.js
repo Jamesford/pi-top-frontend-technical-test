@@ -1,4 +1,4 @@
-const API_HOST = 'https://backend.pi-top.com/todo-test/v1'
+export const API_HOST = 'https://backend.pi-top.com/todo-test/v1'
 
 export const getTodos = () => fetch(`${API_HOST}/todos`)
 

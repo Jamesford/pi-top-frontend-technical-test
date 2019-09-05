@@ -11,7 +11,7 @@ const render = () =>
     <Provider store={store}>
       <Layout />
 
-      <DevTool />
+      {process.env.NODE_ENV !== 'production' && <DevTool />}
     </Provider>,
     document.getElementById('root')
   )
