@@ -10,9 +10,14 @@ const getColours = priority => {
   }
 }
 
-export default ({ priority }) => {
+export default ({ priority, ...props }) => {
   const colourClass = getColours(parseInt(priority, 10))
   return (
-    <div className={`${colourClass} rounded px-2 font-bold`}>{priority}</div>
+    <div
+      className={`${colourClass} rounded px-2 font-bold w-8 text-center`}
+      {...props}
+    >
+      {priority}
+    </div>
   )
 }
