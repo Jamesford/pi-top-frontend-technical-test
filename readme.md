@@ -1,5 +1,7 @@
 # pi-top - Frontend Technical Test
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c31e446d-8106-467d-95ae-8dcb9ecd96f8/deploy-status)](https://app.netlify.com/sites/jstobbs-pi-top-todos/deploys)
+
 ### Install
 ```shell
 yarn install
