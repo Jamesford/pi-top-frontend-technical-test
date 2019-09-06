@@ -1,9 +1,9 @@
 import React from 'react'
 
 const getColours = priority => {
-  if (priority < 4) {
+  if (priority < 3) {
     return 'bg-green-400 text-white'
-  } else if (priority < 8) {
+  } else if (priority < 4) {
     return 'bg-yellow-400 text-gray-800'
   } else {
     return 'bg-red-400 text-white'

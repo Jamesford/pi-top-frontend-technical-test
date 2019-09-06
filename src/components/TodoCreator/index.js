@@ -69,7 +69,7 @@ export class TodoCreator extends Component {
 
         <div className={styles.priority}>
           <Selectable value={priority} onChange={this.onPriority}>
-            {[...new Array(10)].map((_, i) => {
+            {[...new Array(5)].map((_, i) => {
               const n = i + 1
               return <TodoPriority key={n} priority={n} value={n} />
             })}

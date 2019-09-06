@@ -11,7 +11,11 @@
 }
 
 .priority {
-  @apply .flex .justify-between .mb-2
+  @apply .flex .justify-center .mb-2
+}
+
+.priority > div {
+  @apply mx-1
 }
 
 .button {

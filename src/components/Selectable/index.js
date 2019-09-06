@@ -8,7 +8,7 @@ export default class Selectable extends Component {
 
     return React.Children.map(this.props.children, child => {
       const value = child.props.value
-      const opacity = selected === child.props.value ? 1 : 0.25
+      const opacity = selected === child.props.value ? 1 : 0.35
       const onClick = () => this.onChange(value)
 
       return React.cloneElement(child, {
