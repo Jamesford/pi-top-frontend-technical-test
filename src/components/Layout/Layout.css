@@ -1,5 +1,5 @@
 .header {
-  @apply .font-serif .font-bold .text-3xl .leading-loose .text-center .text-gray-800 .bg-white .shadow .mb-5;
+  @apply .font-bold .text-3xl .leading-loose .text-center .text-gray-800 .bg-white .shadow .mb-5;
 }
 
 .main {
