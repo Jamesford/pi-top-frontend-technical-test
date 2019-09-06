@@ -1,3 +1,11 @@
 .header {
-  @apply .font-sans .font-bold .text-5xl .text-center
+  @apply .font-sans .font-bold .text-5xl .text-center;
+}
+
+.main {
+  @media (min-width: 800px) {
+    @apply .flex-row .justify-center .items-start;
+  }
+
+  @apply .flex .flex-col .items-center;
 }

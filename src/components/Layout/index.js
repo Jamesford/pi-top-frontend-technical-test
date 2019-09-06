@@ -9,8 +9,9 @@ export default () => (
       <h1 className={style.header}>Pi-Top Todo</h1>
     </header>
 
-    <main>
+    <main className={style.main}>
       <TodoCreator />
+
       <TodosList />
     </main>
   </React.Fragment>

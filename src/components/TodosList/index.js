@@ -46,7 +46,7 @@ export class TodosList extends Component {
       .sort(sorters[sort].func)
 
     return (
-      <section className="flex-col mx-auto max-w-sm w-full">
+      <section className="flex-col mx-10 max-w-sm w-full">
         <div className="mb-2 flex justify-end">
           <div className="flex">
             <button
