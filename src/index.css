@@ -7,5 +7,6 @@
 
   html {
     background-color: #edf2f7;
+    background-image: url('./interlaced.png');
   }
 }

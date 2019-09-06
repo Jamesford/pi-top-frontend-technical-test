@@ -5,8 +5,8 @@ import TodosList from '../TodosList'
 
 export default () => (
   <React.Fragment>
-    <header>
-      <h1 className={style.header}>Pi-Top Todo</h1>
+    <header className={style.header}>
+      <h1>Pi-Top Todo</h1>
     </header>
 
     <main className={style.main}>
