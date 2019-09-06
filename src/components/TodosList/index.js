@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { getTodos } from '../../modules/reducers/todos'
+import { getTodos, resetTodos } from '../../modules/reducers/todos'
 import LoadingIndicator from '../LoadingIndicator'
 import TodosListItem from '../TodosListItem'
 
@@ -56,7 +56,10 @@ export class TodosList extends Component {
         </div>
 
         <div className="text-center mt-5">
-          <button className="hover:bg-gray-300 text-gray-800 py-2 px-4 rounded underline text-sm">
+          <button
+            className="hover:bg-gray-300 text-gray-800 py-2 px-4 rounded underline text-sm"
+            onClick={this.props.actions.resetTodos}
+          >
             Reset Todos
           </button>
         </div>
@@ -73,7 +76,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actions: {
-    getTodos: bindActionCreators(getTodos, dispatch)
+    getTodos: bindActionCreators(getTodos, dispatch),
+    resetTodos: bindActionCreators(resetTodos, dispatch)
   }
 })
 

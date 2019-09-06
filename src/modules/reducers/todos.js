@@ -12,8 +12,18 @@ const ERROR = 'ERROR'
 const ERROR_CLEAR = 'ERROR_CLEAR'
 const TODOS = 'TODOS'
 const DETAIL = 'DETAIL'
+const CREATE = 'CREATE'
 const RESET = 'RESET'
-export const types = { LOADING, ERROR, ERROR_CLEAR, TODOS, DETAIL, RESET }
+
+export const types = {
+  LOADING,
+  ERROR,
+  ERROR_CLEAR,
+  TODOS,
+  DETAIL,
+  CREATE,
+  RESET
+}
 
 /*
  * ACTIONS
@@ -28,6 +38,8 @@ const errorClear = () => ({ type: ERROR_CLEAR })
 const todos = todos => ({ type: TODOS, payload: todos })
 
 const detail = todo => ({ type: DETAIL, payload: todo })
+
+const create = todo => ({ type: CREATE, payload: todo })
 
 const reset = () => ({ type: RESET })
 
@@ -73,6 +85,27 @@ export const getTodoById = id => async dispatch => {
   }
 }
 
+export const createTodo = todo => async dispatch => {
+  batch(() => {
+    dispatch(errorClear())
+    dispatch(loading(true))
+  })
+
+  let res = await api.createTodo(todo)
+  if (!res.ok) {
+    batch(() => {
+      dispatch(error(res.status, res.statusText))
+      dispatch(loading(false))
+    })
+  } else {
+    res = await res.json()
+    batch(() => {
+      dispatch(create(res))
+      dispatch(loading(false))
+    })
+  }
+}
+
 export const updateTodo = (id, isDone) => async dispatch => {
   batch(() => {
     dispatch(errorClear())
@@ -90,6 +123,26 @@ export const updateTodo = (id, isDone) => async dispatch => {
     batch(() => {
       dispatch(detail(res))
       dispatch(loading(false))
+    })
+  }
+}
+
+export const resetTodos = () => async dispatch => {
+  batch(() => {
+    dispatch(errorClear())
+    dispatch(loading(true))
+  })
+
+  let res = await api.resetTodos()
+  if (!res.ok) {
+    batch(() => {
+      dispatch(error(res.status, res.statusText))
+      dispatch(loading(false))
+    })
+  } else {
+    batch(() => {
+      dispatch(reset())
+      dispatch(getTodos())
     })
   }
 }
@@ -133,6 +186,10 @@ const actionHandlers = {
     list: state.list.map(todo =>
       todo.id === action.payload.id ? action.payload : todo
     )
+  }),
+  [CREATE]: (state, action) => ({
+    ...state,
+    list: [...state.list, action.payload]
   }),
   [RESET]: () => initialState
 }

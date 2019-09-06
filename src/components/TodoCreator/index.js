@@ -1,58 +1,96 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { createTodo } from '../../modules/reducers/todos'
 import styles from './TodoCreator.css'
 import Selectable from '../Selectable'
 import TodoPriority from '../TodoPriority'
 
+const defaultState = {
+  title: '',
+  description: '',
+  tags: '',
+  priority: 1
+}
+
 export class TodoCreator extends Component {
-  state = {}
+  state = { ...defaultState }
+
+  onText = evt => {
+    const { name, value } = evt.target
+    this.setState(() => ({ [name]: value }))
+  }
+
+  onPriority = value => this.setState(() => ({ priority: value }))
+
+  onSubmit = () => {
+    const { title, description, tags, priority } = this.state
+    const { actions } = this.props
+
+    const tagsArray = tags.split(',').map(s => s.trim()) // Transform tag string to array
+
+    actions.createTodo({ title, description, priority, tags: tagsArray })
+    this.setState(() => ({ ...defaultState }))
+  }
 
   render() {
-    const {} = this.props
+    const { title, description, tags, priority } = this.state
 
     return (
       <div className="bg-white flex-col mx-auto max-w-sm w-full shadow-lg mb-2 p-2">
         <header className={styles.header}>New Todo</header>
 
-        <input className={styles.input} type="text" placeholder="Title" />
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Title"
+          name="title"
+          value={title}
+          onChange={this.onText}
+        />
 
-        <input className={styles.input} type="text" placeholder="Description" />
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Description"
+          name="description"
+          value={description}
+          onChange={this.onText}
+        />
 
         <input
           className={styles.input}
           type="text"
           placeholder="Comma, separated, tags"
+          name="tags"
+          value={tags}
+          onChange={this.onText}
         />
 
         <div className={styles.priority}>
-          <Selectable value={1} onChange={() => {}}>
-            <TodoPriority priority={1} value={1} />
-            <TodoPriority priority={2} value={2} />
-            <TodoPriority priority={3} value={3} />
-            <TodoPriority priority={4} value={4} />
-            <TodoPriority priority={5} value={5} />
-            <TodoPriority priority={6} value={6} />
-            <TodoPriority priority={7} value={7} />
-            <TodoPriority priority={8} value={8} />
-            <TodoPriority priority={9} value={9} />
-            <TodoPriority priority={10} value={10} />
+          <Selectable value={priority} onChange={this.onPriority}>
+            {[...new Array(10)].map((_, i) => {
+              const n = i + 1
+              return <TodoPriority key={n} priority={n} value={n} />
+            })}
           </Selectable>
         </div>
 
-        <button className={styles.button}>Create</button>
+        <button className={styles.button} onClick={this.onSubmit}>
+          Create
+        </button>
       </div>
     )
   }
 }
 
-const mapStateToProps = state => ({})
-
 const mapDispatchToProps = dispatch => ({
-  actions: {}
+  actions: {
+    createTodo: bindActionCreators(createTodo, dispatch)
+  }
 })
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(TodoCreator)

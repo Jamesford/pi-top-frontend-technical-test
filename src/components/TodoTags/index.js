@@ -5,7 +5,7 @@ const Tag = ({ tag }) => (
 )
 
 export default ({ tags }) => (
-  <div className="flex">
+  <div className="flex flex-wrap">
     {tags.map(tag => (
       <Tag key={tag} tag={tag} />
     ))}
