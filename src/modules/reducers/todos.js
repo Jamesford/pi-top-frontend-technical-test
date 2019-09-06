@@ -140,10 +140,8 @@ export const resetTodos = () => async dispatch => {
       dispatch(loading(false))
     })
   } else {
-    batch(() => {
-      dispatch(reset())
-      dispatch(getTodos())
-    })
+    dispatch(reset())
+    await dispatch(getTodos())
   }
 }
 
