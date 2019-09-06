@@ -41,6 +41,10 @@ export class TodosList extends Component {
     const { loading, error, todos } = this.props
     const { filter, sort } = this.state
 
+    const visibleTodos = todos
+      .filter(filters[filter].func)
+      .sort(sorters[sort].func)
+
     return (
       <section className="flex-col mx-auto max-w-sm w-full">
         <div className="mb-2 flex justify-end">
@@ -51,6 +55,7 @@ export class TodosList extends Component {
             >
               Priority: {sorters[sort].text}
             </button>
+
             <button
               className="bg-white border-gray-400 border hover:bg-gray-100 text-gray-800 font-bold py-2 px-4 rounded-r"
               onClick={this.toggleFilter}
@@ -60,34 +65,38 @@ export class TodosList extends Component {
           </div>
         </div>
 
-        {loading && todos.length === 0 && <LoadingIndicator />}
+        {loading && visibleTodos.length === 0 && (
+          <LoadingIndicator
+            className="my-10"
+            color={'#4299e1'}
+            height={50}
+            width={5}
+            margin={2}
+            radius={3}
+          />
+        )}
+
+        {!loading && visibleTodos.length === 0 && (
+          <p className="text-gray-800 font-bold py-2 px-4 text-center my-10">
+            No todos, make some more!
+          </p>
+        )}
 
         <div className="bg-white flex-col shadow-lg rounded max-w-sm w-full">
-          {todos
-            .filter(filters[filter].func)
-            .sort(sorters[sort].func)
-            .map(
-              ({
-                id,
-                title,
-                description,
-                createdAt,
-                priority,
-                tags,
-                isDone
-              }) => (
-                <TodosListItem
-                  key={id}
-                  id={id}
-                  title={title}
-                  description={description}
-                  createdAt={createdAt}
-                  priority={priority}
-                  tags={tags}
-                  isDone={isDone}
-                />
-              )
-            )}
+          {visibleTodos.map(
+            ({ id, title, description, createdAt, priority, tags, isDone }) => (
+              <TodosListItem
+                key={id}
+                id={id}
+                title={title}
+                description={description}
+                createdAt={createdAt}
+                priority={priority}
+                tags={tags}
+                isDone={isDone}
+              />
+            )
+          )}
         </div>
 
         <div className="text-center mt-5">
