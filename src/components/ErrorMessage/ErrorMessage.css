@@ -1,0 +1,13 @@
+.container {
+  @apply .flex .justify-center;
+}
+
+.error {
+  @media (min-width: 800px) {
+    /* @apply .w-53 ; */
+    max-width: 53rem;
+  }
+
+  @apply .w-full .text-center .mx-10 .bg-red-600 .rounded .text-white .py-2 .mb-4;
+  max-width: 24rem;
+}
