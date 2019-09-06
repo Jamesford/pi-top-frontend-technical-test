@@ -9,7 +9,7 @@ export default class Checkbox extends Component {
   }
 
   render() {
-    const { checked, disabled } = this.props
+    const { checked, disabled, readOnly } = this.props
 
     return (
       <label className={`${style.checkbox} flex cursor-pointer`}>
@@ -20,6 +20,7 @@ export default class Checkbox extends Component {
             checked={checked}
             disabled={disabled}
             onClick={this.onClick}
+            readOnly={readOnly}
           />
           <svg
             className="hidden w-4 h-4 text-green-600 pointer-events-none"
@@ -52,11 +53,13 @@ export default class Checkbox extends Component {
 Checkbox.propTypes = {
   checked: PropTypes.bool,
   disabled: PropTypes.bool,
+  readOnly: PropTypes.bool,
   onClick: PropTypes.func
 }
 
 Checkbox.defaultProps = {
   checked: false,
   disabled: false,
+  readOnly: false,
   onClick: () => {}
 }

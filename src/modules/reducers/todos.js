@@ -52,13 +52,34 @@ export const getTodos = () => async dispatch => {
   }
 }
 
-export const getTodoById = id => async (dispatch, getState) => {
+export const getTodoById = id => async dispatch => {
   batch(() => {
     dispatch(errorClear())
     dispatch(loading(true))
   })
 
   let res = await api.getTodoById(id)
+  if (!res.ok) {
+    batch(() => {
+      dispatch(error(res.status, res.statusText))
+      dispatch(loading(false))
+    })
+  } else {
+    res = await res.json()
+    batch(() => {
+      dispatch(detail(res))
+      dispatch(loading(false))
+    })
+  }
+}
+
+export const updateTodo = (id, isDone) => async dispatch => {
+  batch(() => {
+    dispatch(errorClear())
+    dispatch(loading(true))
+  })
+
+  let res = await api.updateTodo(id, isDone)
   if (!res.ok) {
     batch(() => {
       dispatch(error(res.status, res.statusText))
