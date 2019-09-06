@@ -40,14 +40,20 @@ export class TodosList extends Component {
         {loading && todos.length === 0 && <LoadingIndicator />}
 
         <div className="mx-auto flex-column shadow-2xl rounded max-w-sm w-full">
-          {todos.map(({ title, createdAt, priority, isDone }) => (
-            <TodosListItem
-              title={title}
-              createdAt={createdAt}
-              priority={priority}
-              isDone={isDone}
-            />
-          ))}
+          {todos.map(
+            ({ id, title, description, createdAt, priority, tags, isDone }) => (
+              <TodosListItem
+                key={id}
+                id={id}
+                title={title}
+                description={description}
+                createdAt={createdAt}
+                priority={priority}
+                tags={tags}
+                isDone={isDone}
+              />
+            )
+          )}
         </div>
       </section>
     )

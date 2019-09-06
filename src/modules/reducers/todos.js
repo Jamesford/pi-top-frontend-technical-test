@@ -1,32 +1,74 @@
+import { batch } from 'react-redux'
 import createReducer from '../utils/createReducer'
 import api from '../api'
+import { async } from 'q'
 
 /*
  * TYPES
  */
 
-const TODOS_LOADING = 'TODOS_LOADING'
-const TODOS_ERROR = 'TODOS_ERROR'
-const TODOS_RECEIVED = 'TODOS_RECEIVED'
-export const types = { TODOS_LOADING, TODOS_ERROR, TODOS_RECEIVED }
+const LOADING = 'LOADING'
+const ERROR = 'ERROR'
+const ERROR_CLEAR = 'ERROR_CLEAR'
+const TODOS = 'TODOS'
+const DETAIL = 'DETAIL'
+const RESET = 'RESET'
+export const types = { LOADING, ERROR, ERROR_CLEAR, TODOS, DETAIL, RESET }
 
 /*
  * ACTIONS
  */
 
-export const getTodos = () => async (dispatch, getState) => {
-  dispatch({ type: TODOS_LOADING })
+const loading = status => ({ type: LOADING, payload: status })
+
+const error = (code, msg) => ({ type: ERROR, payload: { code, msg } })
+
+const errorClear = () => ({ type: ERROR_CLEAR })
+
+const todos = todos => ({ type: TODOS, payload: todos })
+
+const detail = todo => ({ type: DETAIL, payload: todo })
+
+const reset = () => ({ type: RESET })
+
+export const getTodos = () => async dispatch => {
+  batch(() => {
+    dispatch(errorClear())
+    dispatch(loading(true))
+  })
+
   let res = await api.getTodos()
   if (!res.ok) {
-    dispatch({
-      type: TODOS_ERROR,
-      payload: { code: res.status, msg: res.statusText }
+    batch(() => {
+      dispatch(error(res.status, res.statusText))
+      dispatch(loading(false))
     })
   } else {
     res = await res.json()
-    dispatch({
-      type: TODOS_RECEIVED,
-      payload: res
+    batch(() => {
+      dispatch(todos(res))
+      dispatch(loading(false))
+    })
+  }
+}
+
+export const getTodoById = id => async (dispatch, getState) => {
+  batch(() => {
+    dispatch(errorClear())
+    dispatch(loading(true))
+  })
+
+  let res = await api.getTodoById(id)
+  if (!res.ok) {
+    batch(() => {
+      dispatch(error(res.status, res.statusText))
+      dispatch(loading(false))
+    })
+  } else {
+    res = await res.json()
+    batch(() => {
+      dispatch(detail(res))
+      dispatch(loading(false))
     })
   }
 }
@@ -46,25 +88,32 @@ export const initialState = {
  */
 
 const actionHandlers = {
-  [TODOS_LOADING]: (state, action) => ({
+  [LOADING]: (state, action) => ({
     ...state,
-    loading: true,
-    error: false
+    loading: !!action.payload
   }),
-  [TODOS_ERROR]: (state, action) => ({
+  [ERROR]: (state, action) => ({
     ...state,
-    loading: false,
     error: {
       code: action.payload.code,
       msg: action.payload.msg
     }
   }),
-  [TODOS_RECEIVED]: (state, action) => ({
+  [ERROR_CLEAR]: state => ({
     ...state,
-    loading: false,
-    error: false,
+    error: false
+  }),
+  [TODOS]: (state, action) => ({
+    ...state,
     list: action.payload
-  })
+  }),
+  [DETAIL]: (state, action) => ({
+    ...state,
+    list: state.list.map(todo =>
+      todo.id === action.payload.id ? action.payload : todo
+    )
+  }),
+  [RESET]: () => initialState
 }
 
 export default createReducer(initialState, actionHandlers)
