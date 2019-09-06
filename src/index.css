@@ -4,4 +4,8 @@
   @tailwind components;
 
   @tailwind utilities;
+
+  html {
+    background-color: #edf2f7;
+  }
 }

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { getTodos } from '../../modules/reducers/todos'
-
 import LoadingIndicator from '../LoadingIndicator'
 import TodosListItem from '../TodosListItem'
 
@@ -16,22 +15,22 @@ export class TodosList extends Component {
     const { loading, error, todos } = this.props
 
     return (
-      <section className="flex-col">
-        <div className="mx-auto max-w-sm w-full mb-2 flex justify-between">
+      <section className="flex-col mx-auto max-w-sm w-full">
+        <div className="mb-2 flex justify-between">
           <div className="flex">
-            <span className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-l cursor-default">
+            <span className="bg-white border-gray-400 border text-gray-800 font-bold py-2 px-4 rounded-l cursor-default">
               Priority
             </span>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4">
+            <button className="bg-white border-gray-400 border-t border-b hover:bg-gray-100 text-gray-800 font-bold py-2 px-4">
               ⬆️
             </button>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+            <button className="bg-white border-gray-400 border hover:bg-gray-100 text-gray-800 font-bold py-2 px-4 rounded-r">
               ⬇️
             </button>
           </div>
 
           <div>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">
+            <button className="bg-white border-gray-400 border hover:bg-gray-100 text-gray-800 font-bold py-2 px-4 rounded">
               Filter: All
             </button>
           </div>
@@ -39,7 +38,7 @@ export class TodosList extends Component {
 
         {loading && todos.length === 0 && <LoadingIndicator />}
 
-        <div className="mx-auto flex-column shadow-2xl rounded max-w-sm w-full">
+        <div className="bg-white flex-col shadow-lg rounded max-w-sm w-full">
           {todos.map(
             ({ id, title, description, createdAt, priority, tags, isDone }) => (
               <TodosListItem
@@ -54,6 +53,12 @@ export class TodosList extends Component {
               />
             )
           )}
+        </div>
+
+        <div className="text-center mt-5">
+          <button className="hover:bg-gray-300 text-gray-800 py-2 px-4 rounded underline text-sm">
+            Reset Todos
+          </button>
         </div>
       </section>
     )

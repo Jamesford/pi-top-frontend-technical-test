@@ -12,7 +12,7 @@ export class TodoCreator extends Component {
     const {} = this.props
 
     return (
-      <div className="flex-col mx-auto max-w-sm w-full shadow-lg mb-2 p-2">
+      <div className="bg-white flex-col mx-auto max-w-sm w-full shadow-lg mb-2 p-2">
         <header className={styles.header}>New Todo</header>
 
         <input className={styles.input} type="text" placeholder="Title" />

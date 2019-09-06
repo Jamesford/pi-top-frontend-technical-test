@@ -31,11 +31,8 @@ export class TodosListItem extends Component {
     const showTags = !!tags && showDetails
 
     return (
-      <section
-        className="flex justify-between items-stretch group border-b cursor-pointer"
-        onClick={this.toggleDetails}
-      >
-        <div className="flex-grow p-4">
+      <section className="flex justify-between items-stretch group border-b cursor-pointer">
+        <div className="flex-grow p-4" onClick={this.toggleDetails}>
           <header className="font-bold text-lg mb-1">{title}</header>
 
           {showDescription && (
